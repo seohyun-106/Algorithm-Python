@@ -1,20 +1,34 @@
+from collections import deque
+import sys
+input = sys.stdin.readline
+INF = int(1e9)
+
 n, m, k, x = map(int, input().split())
-distance = [1000000] * (n+1)
-roads = list(list(map(int, input().split())) for _ in range(m))
+graph = [[] for _ in range(n+1)]
+distance = [INF] * (n+1)
+
+for i in range(m):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+
 distance[x] = 0
+q = deque()
+q.append(x)
 
-for road in roads:
-    start = road[0]
-    end = road[1]
-
-    distance[end] = min(distance[start] + 1, distance[end])
+while q:
+    now = q.popleft()
+    length = len(graph[now])
+    if length:
+        for i in range(length):
+            target = graph[now][i]
+            if distance[now] + 1 < distance[target]:
+                q.append(target)
+                distance[target] = distance[now] + 1
 
 check = False
-
-for i in range(len(distance)):
+for i in range(1, len(distance)):
     if distance[i] == k:
-        check = True
         print(i)
-
+        check = True
 if not check:
     print(-1)
