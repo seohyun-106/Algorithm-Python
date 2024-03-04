@@ -2,8 +2,6 @@ n, m = map(int, input().split())
 
 tray = list(list(map(int, input())) for _ in range(n))
 
-visited = [[False] * m for _ in range(n)]
-
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
